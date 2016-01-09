@@ -13,7 +13,10 @@ class Part {
   float minRotation = -300;
   float maxRotation = 300;
   rotationAxis rotAxis;
-  float speed;
+  float currentSpeed = 0;
+  float maxSpeed = 0.05;
+  float acceleration = maxSpeed/(frameRate*10);//10 is the seconds to get on max speed.
+  float decelerationfactor = 7;//Difference in rotation (radians) * this factor = the speed to add.
   color colour;
   String partName;
 
@@ -24,7 +27,7 @@ class Part {
     rotAxis = rot;
     this.minRotation = minRotation;
     this.maxRotation = maxRotation;
-    speed = 0.05;
+    maxSpeed = 0.05;
     colour = drawColor;
     if(!useStyle)
     shape.disableStyle();
@@ -32,6 +35,32 @@ class Part {
   void update() {
     fill(colour); 
     noStroke();
+    
+    if(curRotation > maxRotation){
+     curRotation = maxRotation;
+     addToMessageList("Collision! " + partName + " exceeded max rotation (" + curRotation + "/" + maxRotation + ")");
+    }else if(curRotation < minRotation){
+      curRotation = minRotation;
+      addToMessageList("Collision! " + partName + " exceeded min rotation (" + curRotation + "/" + minRotation + ")");
+    }
+
+    if(int(curRotation*100) == int(setRotation*100)){
+     currentSpeed = 0;
+     curRotation = setRotation;
+    }else if(curRotation < setRotation){
+      curRotation += currentSpeed;
+    }else if(curRotation > setRotation){
+      curRotation -= currentSpeed;
+    }
+    currentSpeed *= (abs(curRotation-setRotation)*decelerationfactor);
+    
+    if(currentSpeed < maxSpeed){
+      currentSpeed+=acceleration;
+    }else if(currentSpeed > maxSpeed){
+      currentSpeed = maxSpeed;
+    }
+    
+    //println("CurRot: " + curRotation + " SetRot " + setRotation + " | curSpeed " + currentSpeed + " maxSpeed " + maxSpeed + " factor = " +  abs(curRotation-setRotation));
     
     switch(rotAxis){
      case x:

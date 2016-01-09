@@ -20,8 +20,8 @@ class TextField {
         if (!edit) {
           edit = true;
           value = "";
+          mousePressed = false;
         }
-        mousePressed = false;
       } else {//Clicked outside
         if (edit) {
           edit = false;
@@ -31,7 +31,7 @@ class TextField {
     if (keyPressed && edit) {
       if (key >= ',' && key <= 'Z') {
         value+= key;
-        key = 0;
+        
       }
       if (key == BACKSPACE) {
         value = value.substring(0, max(0, value.length()-1));
@@ -57,7 +57,7 @@ class TextField {
     else
       fill(255);
     textSize(10);
-    text(text + ": " + value, x+2, y+15);
+    text(text + value, x+2, y+15);
 
     return value;
   }
