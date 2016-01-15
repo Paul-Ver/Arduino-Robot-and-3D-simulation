@@ -1,9 +1,9 @@
-enum rotationAxis{
-  none,
-  x,
-  y,
-  z
-};
+//enum rotationAxis{ //Not using enums, for backward compatibility with processing 2.2.1
+//  none,
+//  x,
+//  y,
+//  z
+//};
 
 class Part { 
   float partLength = -10;
@@ -12,7 +12,7 @@ class Part {
   float setRotation = 0;
   float minRotation = -300;
   float maxRotation = 300;
-  rotationAxis rotAxis;
+  char rotAxis;
   float currentSpeed = 0;
   float maxSpeed = 0.05;
   float acceleration = maxSpeed/(frameRate*10);//10 is the seconds to get on max speed.
@@ -20,7 +20,7 @@ class Part {
   color colour;
   String partName;
 
-  Part (String partName, rotationAxis rot, float minRotation, float maxRotation, float Length, boolean useStyle, color drawColor) {  
+  Part (String partName, char rot, float minRotation, float maxRotation, float Length, boolean useStyle, color drawColor) {  
     shape = loadShape(partName);
     this.partName = partName;
     partLength = Length;
@@ -63,16 +63,16 @@ class Part {
     //println("CurRot: " + curRotation + " SetRot " + setRotation + " | curSpeed " + currentSpeed + " maxSpeed " + maxSpeed + " factor = " +  abs(curRotation-setRotation));
     
     switch(rotAxis){
-     case x:
+     case 'x':
        rotateX(-curRotation);
      break;
-     case y:
+     case 'y':
        rotateY(curRotation);
      break;
-     case z:
+     case 'z':
        rotateZ(curRotation);
      break;
-     case none:
+     case 'n':
      break;
     }
     shape(shape);

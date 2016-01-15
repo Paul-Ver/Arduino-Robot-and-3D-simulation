@@ -29,8 +29,8 @@ final float stopBits = 1.0;
 
 void setup() {
   size(1200, 800, OPENGL);
-  surface.setTitle("Robotics Simulation - By: Paul Verhoeven");
-  surface.setResizable(true);
+  frame.setTitle("Robotics Simulation - By: Paul Verhoeven");  //Using frame. instead of surface. for backward compatibility with processing 2.2.1
+  frame.setResizable(true);                                    //Using frame. instead of surface. for backward compatibility with processing 2.2.1
   frameRate(30);
   //Thanks to CoreTech
   robot = new Robot();

@@ -6,12 +6,12 @@ class Robot {
   Robot () {
     //Create parts of which the robot is created. FULLY CONFIGURABLE!
     //                  file name,    rotation axis,     min/max rot,length,  use 3D style, color
-    parts.add(new Part("base.obj", rotationAxis.none, 0, 0, 4, false, color(100, 100, 100)));
-    parts.add(new Part("shoulder.obj", rotationAxis.y, -150, 150, 25, false, color(255, 255, 255)));
-    parts.add(new Part("upperArm.obj", rotationAxis.x, -60, 120, 50, false, color(255, 255, 0)));
-    parts.add(new Part("lowerArm.obj", rotationAxis.x, -110, 120, 50, false, color(255, 255, 0)));
-    parts.add(new Part("end.obj", rotationAxis.x, -90, 90, 12, false, color(100, 100, 100)));
-    parts.add(new Part("claw.obj", rotationAxis.y, -200, 200, 12, false, color(255, 255, 255)));
+    parts.add(new Part("base.obj",     'n', 0, 0, 4, false, color(100, 100, 100)));
+    parts.add(new Part("shoulder.obj", 'y', -150, 150, 25, false, color(255, 255, 255)));
+    parts.add(new Part("upperArm.obj", 'x', -60, 120, 50, false, color(255, 255, 0)));
+    parts.add(new Part("lowerArm.obj", 'x', -110, 120, 50, false, color(255, 255, 0)));
+    parts.add(new Part("end.obj",      'x', -90, 90, 12, false, color(100, 100, 100)));
+    parts.add(new Part("claw.obj",     'y', -200, 200, 12, false, color(255, 255, 255)));
   } 
   void update() { 
     pushMatrix();
