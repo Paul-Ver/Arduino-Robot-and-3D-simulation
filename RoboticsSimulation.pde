@@ -10,13 +10,14 @@ TextField comfield;
 
 float rotX, rotY;//World rotation.
 float scale = 0.75;//World scale.
-int xball, yball, zball, comPortNumber = 0;
+int comPortNumber = 0;
 
 int xx = 200,yy = 200,zz = 200;
 
 int messageListLength = 10;
 String[] messageList = new String[messageListLength];
 int messageListAlpha = 255;
+int mb = 0;
 
 //COM PORT SETTINGS//
 final int baudRate = 115200;
@@ -35,9 +36,6 @@ void setup() {
   //Thanks to CoreTech
   robot = new Robot();
   sphereDetail(10);
-  xfield = new TextField(10, 160, 80, 30, "x: ", "200");
-  yfield = new TextField(10, 120, 80, 30, "y: ", "0");
-  zfield = new TextField(10, 80, 80, 30, "z: ", "200");
   comfield = new TextField(10, 40, 80, 30, "COM", "-port");
 }
 
@@ -56,15 +54,8 @@ void draw() {
 
   robot.update();
   drawTable(0, 220, 0, 800, 10, 800);
-  drawBall(xball, yball, zball);
-  
-      robot.inverseKinematics(xx,yy,zz);
-    pushMatrix();
-    translate(xx,yy,zz);
-    fill(color(255, 0, 0));
-  sphere(20);
-  fill(0);
-    popMatrix();
+  drawBall(xx, yy, zz);
+  robot.inverseKinematics(xx,yy,zz);
   
   noLights();
   drawOrigin();
@@ -75,9 +66,6 @@ void draw() {
   hint(DISABLE_DEPTH_TEST);
   //fill(255);
   //rect(0,height-100,width,height);
-  xball =  xfield.updateInt();
-  yball =  yfield.updateInt();
-  zball =  zfield.updateInt();
   handleComPortButton();
   drawMessageList(10, height-2);
   //Others.
@@ -153,18 +141,39 @@ void addToMessageList(String text) {
 }
 //---------Mouse/Key input---------
 void mouseDragged() {
-  rotY += (mouseX - pmouseX) * 0.01;
-  rotX -= (mouseY - pmouseY) * 0.01;
+  if(mousePressed){
+  switch(mb){
+    case LEFT:
+    rotY += (mouseX - pmouseX) * 0.01;
+    rotX -= (mouseY - pmouseY) * 0.01;
+    break;
+    case RIGHT:
+    xx += (mouseX - pmouseX)*cos(rotY);
+    zz += (mouseX - pmouseX)*sin(rotY);
+    yy += (mouseY - pmouseY);
+    break;
+  }
+  }
 }
-
+void mousePressed(){
+  mb=mouseButton;
+}
 void mouseWheel(MouseEvent event) {
-  float count = event.getCount();
-  scale -= count/10;
-  if (scale <0.1) {
-    scale = 0.1;
-  } else if (scale>3)
-  {
-    scale=3;
+  float count = event.getCount(); 
+  if(mousePressed){
+    if(mb == RIGHT){
+      robot.setRotation(4,robot.getSetRotation(4)+count/10);
+    }else if(mb == LEFT){
+      robot.setRotation(5,robot.getSetRotation(5)+count/10);
+    }
+  }else{
+    scale -= count/10;
+    if (scale <0.1) {
+      scale = 0.1;
+    } else if (scale>3)
+    {
+      scale=3;
+    }
   }
 }
 
@@ -194,6 +203,13 @@ void keyPressed() {
 //---------Connection (serial/socket)---------
 void serialEvent(Serial p) { 
   print(p.readString());
+}
+boolean serialSend(String message){
+  if(robotSerial!=null){
+    robotSerial.write(message);
+    return true;
+  }
+  return false;
 }
 void handleComPortButton() {
   int newComPortNumber = comfield.updateInt();
