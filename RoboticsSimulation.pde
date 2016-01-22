@@ -3,10 +3,8 @@ import processing.serial.*;
 
 Serial robotSerial;
 Robot robot;
-TextField xfield;
-TextField yfield;
-TextField zfield;
 TextField comfield;
+TextField sendButton;
 
 float rotX, rotY;//World rotation.
 float scale = 0.75;//World scale.
@@ -37,6 +35,7 @@ void setup() {
   robot = new Robot();
   sphereDetail(10);
   comfield = new TextField(10, 40, 80, 30, "COM", "-port");
+  sendButton = new TextField(10,90,130,30, "Send", "");
 }
 
 void draw() {
@@ -67,6 +66,9 @@ void draw() {
   //fill(255);
   //rect(0,height-100,width,height);
   handleComPortButton();
+  if(sendButton.updateButton()){
+   sendCurrentPositions(); 
+  }
   drawMessageList(10, height-2);
   //Others.
   hint(ENABLE_DEPTH_TEST);
@@ -239,4 +241,14 @@ void handleComPortButton() {
       comfield.edit = false;
     }
   }
+}
+void sendCurrentPositions(){
+  String text =( "(" +(round(degrees(robot.getSetRotation(1)))+90)
+               + "," +(round(degrees(robot.getSetRotation(2)))+90)
+               + "," +(round(degrees(robot.getSetRotation(3)))+90)
+               + "," +(round(degrees(robot.getSetRotation(4)))+90)
+               + "," +(round(degrees(robot.getSetRotation(5)))+90)
+               + ")\n" );
+  serialSend(text);
+  print(text);
 }
