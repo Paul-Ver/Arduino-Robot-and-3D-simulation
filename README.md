@@ -1,3 +1,5 @@
+### This project is currently halted since I do not have an adequate power-supply.
+
 This project now consists out of two parts.
 
 1. The 3D simulation/interface of the Robotic Arm.
