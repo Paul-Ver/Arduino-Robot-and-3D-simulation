@@ -1,11 +1,11 @@
-class TextField {
+class Button {
   int x, y, xsize, ysize;
   String text = "";
   String value = "";
 
   boolean edit = false;
 
-  TextField(int x, int y, int xsize, int ysize, String text, String value) {
+  Button(int x, int y, int xsize, int ysize, String text, String value) {
     this.x=x;
     this.y=y;
     this.xsize = xsize;

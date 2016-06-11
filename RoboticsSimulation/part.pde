@@ -38,10 +38,10 @@ class Part {
     
     if(curRotation > maxRotation){
      curRotation = maxRotation;
-     addToMessageList("Collision! " + partName + " exceeded max rotation (" + curRotation + "/" + maxRotation + ")");
+     receiveBox.addToMessageList("Collision! " + partName + " exceeded max rotation (" + curRotation + "/" + maxRotation + ")");
     }else if(curRotation < minRotation){
       curRotation = minRotation;
-      addToMessageList("Collision! " + partName + " exceeded min rotation (" + curRotation + "/" + minRotation + ")");
+      receiveBox.addToMessageList("Collision! " + partName + " exceeded min rotation (" + curRotation + "/" + minRotation + ")");
     }
 
     if(int(curRotation*100) == int(setRotation*100)){
